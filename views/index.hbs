@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>App</title>
+  </head>
+  <body>
+    <h2>Members</h2>
+    <form action="/search" method="GET">
+        <label for="language">Language:</label><br>
+        <input type="text" name="language" value="{{language}}" />
+        <input type="submit" />
+    </form>
+
+    {{#if data.length}}
+    <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Language (Count, Loc)</th>
+      </tr>
+    </thead>
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{this.login}}{{#if this.name}}</br>{{this.name}}{{/if}}</td>
+            <td>
+                <ul>
+                    {{#each this.languages}}
+                    <li>{{this.name}}: ({{this.count}}, {{this.loc}})</li>
+                    {{/each}}
+                <ul>
+            </td>
+        </tr>
+      {{/each}}
+    </tbody>
+    </table>
+    {{else}}
+    <label>No results found</label>
+    {{/if}}
+  </body>
+</html>

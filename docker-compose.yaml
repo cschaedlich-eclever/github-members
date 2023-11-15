@@ -1,0 +1,45 @@
+version: '3'
+services:
+  github-mock:
+      image: 'jdkelley/simple-http-server:latest'
+      hostname: github-mock
+      ports:
+        - "8000:8000"
+      volumes:
+        - ./assets:/serve
+      networks:
+        - backend
+
+  postgres:
+      image: 'postgres:16.1'
+      hostname: postgres
+      restart: always
+      env_file:
+        - .env
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      ports:
+          - "5432:5432"
+      networks:
+          - backend
+
+  postgres-test:
+    image: 'postgres:16.1'
+    hostname: postgres-test
+    restart: always
+    env_file:
+      - .env.test
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  postgres_test_data:
